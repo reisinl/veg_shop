@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Current Orders{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Current Orders</h2>
+
+    <!-- Check if there are any orders -->
+    {% if orders %}
+        <div class="table-responsive">
+            <table class="table table-bordered mt-4">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Order Number</th>
+                        <th>Order Date</th>
+                        <th>Customer Name</th>
+                        <th>Order Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                        <tr>
+                            <td><a href="{{ url_for('my_orders', order_id=order.id) }}">{{ order.order_number }}</a></td>
+                            <td>{{ order.order_date.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                            <td>{{ order.customer.first_name }} {{ order.customer.last_name }}</td>
+                            <td>{{ order.order_status }}</td>
+                            <td>
+                                <!-- Update Order Status (Only for Staff) -->
+                                {% if session['user_type'] == 'staff' %}
+                                    <form method="POST" action="{{ url_for('update_order_status', order_id=order.id) }}">
+                                        <div class="form-group">
+                                            <select name="order_status" class="form-control">
+                                                <option value="Pending" {% if order.order_status == 'Pending' %}selected{% endif %}>Pending</option>
+                                                <option value="Completed" {% if order.order_status == 'Completed' %}selected{% endif %}>Completed</option>
+                                                <option value="Cancelled" {% if order.order_status == 'Cancelled' %}selected{% endif %}>Cancelled</option>
+                                            </select>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary btn-sm">Update Status</button>
+                                    </form>
+                                {% endif %}
+
+                                <!-- Cancel Order (Only for Customers) -->
+                                {% if session['user_type'] == 'customer' and order.order_status == 'Pending' %}
+                                    <form method="POST" action="{{ url_for('cancel_order', order_id=order.id) }}">
+                                        <button type="submit" class="btn btn-danger btn-sm mt-2">Cancel Order</button>
+                                    </form>
+                                    <a href="{{ url_for('checkout', order_id=order.id)}}" class="btn btn-success btn-sm">Continue Payment</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="alert alert-info text-center mt-4">
+            No current orders available.
+        </div>
+    {% endif %}
+
+    <a href="{{ url_for('dashboard') }}" class="btn btn-secondary mt-4">Back to Dashboard</a>
+</div>
+{% endblock %}

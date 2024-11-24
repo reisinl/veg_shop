@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}All Customers{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">All Customers</h2>
+    <table class="table table-bordered mt-4">
+        <thead>
+            <tr>
+                <th>Customer ID</th>
+                <th>Username</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Customer Type</th>
+                <th>Address</th>
+                <th>Balance</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for customer_detail in customers %}
+            <tr>
+                <td>{{ customer_detail.customer.id }}</td>
+                <td>{{ customer_detail.customer.username }}</td>
+                <td>{{ customer_detail.customer.first_name }}</td>
+                <td>{{ customer_detail.customer.last_name }}</td>
+                <td>{{ customer_detail.type }}</td>
+                <td>{{ customer_detail.customer.cust_address }}</td>
+                <td>${{ customer_detail.customer.cust_balance }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

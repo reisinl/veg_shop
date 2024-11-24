@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Previous Orders{% endblock %}
+
+{% block content %}
+<h2>Previous Orders</h2>
+{% if orders %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Order Number</th>
+                <th>Order Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td><a href="{{ url_for('my_orders', order_id=order.id) }}">{{ order.order_number }}</a></td>
+                <td>{{ order.order_date }}</td>
+                <td>{{ order.order_status }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <div class="alert alert-info text-center mt-4">
+        No orders available.
+    </div>
+{% endif %}
+<a href="{{ url_for('dashboard') }}" class="btn btn-secondary mt-4">Back to Dashboard</a>
+{% endblock %}

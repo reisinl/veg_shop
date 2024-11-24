@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block title %}Checkout{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <h2 class="mb-4">Checkout</h2>
+        <h4 class="mb-3">Total Amount Due: ${{ payment_due_amount }}</h4>
+        <form method="post" action="{{ url_for('checkout', order_id=order.id) }}" onsubmit="return validatePaymentForm()">
+            <div class="form-group">
+                <label for="payment_method">Select Payment Method</label>
+                <select class="form-control" id="payment_method" name="payment_method" required>
+                    <option value="Credit Card">Credit Card</option>
+                    <option value="Debit Card">Debit Card</option>
+                    <option value="Account">Account Balance</option>
+                </select>
+            </div>
+
+            <!-- Credit Card Information -->
+            <div id="credit_card_info" class="payment-info mt-4" style="display: none;">
+                <h5>Credit Card Information</h5>
+                <div class="form-group">
+                    <label for="card_number">Card Number</label>
+                    <input type="text" class="form-control" id="card_number" name="card_number" maxlength="16" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                </div>
+                <div class="form-group">
+                    <label for="card_expiry_date">Expiry Date (MM/YY)</label>
+                    <input type="text" class="form-control" id="card_expiry_date" name="card_expiry_date" maxlength="5" placeholder="MM/YY" oninput="formatExpiryDate(this)">
+                </div>
+                <div class="form-group">
+                    <label for="card_type">Card Type</label>
+                    <select class="form-control" id="card_type" name="card_type">
+                        <option value="Visa">Visa</option>
+                        <option value="MasterCard">MasterCard</option>
+                        <option value="American Express">American Express</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Debit Card Information -->
+            <div id="debit_card_info" class="payment-info mt-4" style="display: none;">
+                <h5>Debit Card Information</h5>
+                <div class="form-group">
+                    <label for="debit_card_number">Debit Card Number</label>
+                    <input type="text" class="form-control" id="debit_card_number" name="debit_card_number" maxlength="16" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                </div>
+                <div class="form-group">
+                    <label for="bank_name">Bank Name</label>
+                    <input type="text" class="form-control" id="bank_name" name="bank_name">
+                </div>
+            </div>
+
+            <!-- Account Balance Information -->
+            <div id="account_payment_info" class="payment-info mt-4" style="display: none;">
+                <h5>Pay with Account Balance</h5>
+                <p>Your current balance: ${{ customer.cust_balance }}</p>
+            </div>
+
+            <div class="form-group mt-4">
+                <label for="payment_amount">Payment Amount</label>
+                <input type="number" class="form-control" id="payment_amount" name="payment_amount" value="{{ payment_due_amount }}" readonly>
+            </div>
+
+            <button type="submit" class="btn btn-success">Complete Payment</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    // JavaScript to show/hide payment sections based on selected method
+    document.getElementById('payment_method').addEventListener('change', function() {
+        let creditCardInfo = document.getElementById('credit_card_info');
+        let debitCardInfo = document.getElementById('debit_card_info');
+        let accountPaymentInfo = document.getElementById('account_payment_info');
+
+        creditCardInfo.style.display = 'none';
+        debitCardInfo.style.display = 'none';
+        accountPaymentInfo.style.display = 'none';
+
+        if (this.value === 'Credit Card') {
+            creditCardInfo.style.display = 'block';
+        } else if (this.value === 'Debit Card') {
+            debitCardInfo.style.display = 'block';
+        } else if (this.value === 'Account') {
+            accountPaymentInfo.style.display = 'block';
+        }
+    });
+
+    // Trigger change event to set initial state
+    document.getElementById('payment_method').dispatchEvent(new Event('change'));
+
+    // JavaScript to validate the form based on selected payment method
+    function validatePaymentForm() {
+        const paymentMethod = document.getElementById('payment_method').value;
+
+        if (paymentMethod === 'Credit Card') {
+            const expiryDateInput = document.getElementById("card_expiry_date");
+            const expiryDate = expiryDateInput.value.trim();
+
+            if (expiryDate) {
+                const [month, year] = expiryDate.split("/").map(Number);
+                const currentDate = new Date();
+                const currentMonth = currentDate.getMonth() + 1; // Months are 0-based
+                const currentYear = currentDate.getFullYear() % 100; // Get last 2 digits of the year
+
+                // Check if expiry year is greater or if same year, check if month is valid
+                if (year < currentYear || (year === currentYear && month < currentMonth)) {
+                    alert("please check the expiry date of your credit card.");
+                    return false; 
+                }
+            }
+        }
+        return true;
+    }
+
+    // JavaScript to auto-format expiry date input (MM/YY)
+    function formatExpiryDate(input) {
+        let value = input.value.replace(/[^0-9]/g, ''); // Only allow numbers
+
+        if (value.length >= 2) {
+            // Insert a forward slash after the first two digits
+            input.value = value.slice(0, 2) + '/' + value.slice(2, 4);
+        } else {
+            input.value = value; // If less than 2 digits, don't add slash
+        }
+    }
+</script>
+{% endblock %}

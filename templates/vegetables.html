@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Available Vegetables{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Available Vegetables and Boxes</h2>
+    <div class="row mt-4">
+        {% for item in items %}
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item.name }}</h5>
+                        <p class="card-text">Price: ${{ item.price }}</p>
+                        <p class="card-text">Stock: {{ item.stock_quantity }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <a href="{{ url_for('dashboard') }}" class="btn btn-secondary mt-4">Back to Dashboard</a>
+</div>
+{% endblock %}

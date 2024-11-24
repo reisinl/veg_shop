@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}My Orders{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">My Orders</h2>
+    <div class="mt-4">
+        {% if orders %}
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Order Number</th>
+                    <th>Order Date</th>
+                    <th>Order Customer</th>
+                    <th>Status</th>
+                    <th>Total Amount</th>
+                    <th>Items</th>
+                    <!-- <th>Payment Status</th> -->
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order_detail in orders %}
+                <tr>
+                    <td>{{ order_detail.order.order_number }}</td>
+                    <td>{{ order_detail.order.order_date.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                    <td>{{ order_detail.customer_name }}</td>
+                    <td>{{ order_detail.order.order_status }}</td>
+                    <td>${{ order_detail.order.total_amount if order_detail.order.total_amount else ('N/A' if not order_detail.payment else order_detail.payment.payment_amount) }}</td>
+                    <td>
+                        <ul>
+                            {% for line in order_detail.order_lines %}
+                            <li>{{ line.item.name }} {{"by" if line.order_type}} {{line.order_type }} - Quantity: {{ line.quantity }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <!-- <td>{{ 'Paid' if order_detail.payment else 'Pending' }}</td> -->
+                    <td>
+                        {% if order_detail.order.order_status == 'Pending' %}
+                        <a href="{{ url_for('checkout', order_id=order_detail.order.id) }}" class="btn btn-success btn-sm">Continue Payment</a>
+                        {% else %}
+                        <p>N/A</p>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="alert alert-info text-center">
+            You have no orders at the moment.
+        </div>
+        {% endif %}
+    </div>
+    <a href="{{ url_for('dashboard') }}" class="btn btn-secondary mt-4">Back to Dashboard</a>
+</div>
+{% endblock %}

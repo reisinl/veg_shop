@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Customer Details</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center">Customer Details</h2>
+        <ul class="list-group mt-4">
+            <li class="list-group-item">First Name: {{ customer.first_name }}</li>
+            <li class="list-group-item">Last Name: {{ customer.last_name }}</li>
+            <li class="list-group-item">Address: {{ customer.cust_address }}</li>
+            <li class="list-group-item">Account Balance: ${{ customer.cust_balance }}</li>
+            <li class="list-group-item">Maximum Owing: ${{ customer.max_owing }}</li>
+        </ul>
+        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary mt-4">Back to Dashboard</a>
+    </div>
+</body>
+</html>

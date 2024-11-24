@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Welcome {{ user.first_name }} {{ user.last_name }}!</h2>
+    <div class="list-group mt-4">
+        <a href="{{ url_for('view_vegetables') }}" class="list-group-item list-group-item-action">View Available Vegetables and Boxes</a>
+        <a href="{{ url_for('place_order') }}" class="list-group-item list-group-item-action">Place Order</a>
+        <a href="{{ url_for('view_current_orders') }}" class="list-group-item list-group-item-action">Current Orders</a>
+        <a href="{{ url_for('view_previous_orders') }}" class="list-group-item list-group-item-action">Previous Orders</a>
+        <a href="{{ url_for('customer_details') }}" class="list-group-item list-group-item-action">View Your Details</a>
+        
+        {% if session['user_type'] == 'staff' %}
+            <hr>
+            <a href="{{ url_for('view_customers') }}" class="list-group-item list-group-item-action">View All Customers</a>
+            <a href="{{ url_for('generate_customer_list') }}" class="list-group-item list-group-item-action">Generate Customer List</a>
+            <a href="{{ url_for('generate_report') }}" class="list-group-item list-group-item-action">Generate Sales Report</a>
+            <a href="{{ url_for('view_popular_items') }}" class="list-group-item list-group-item-action">View Most Popular Items</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
