@@ -15,7 +15,9 @@
                 <li class="nav-item"><a class="nav-link" href="{{ url_for('view_vegetables') }}">Vegetables</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ url_for('view_current_orders') }}">Current Orders</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ url_for('view_previous_orders') }}">Previous Orders</a></li>
+                {% if session['user_id'] %}
                 <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}">Logout</a></li>
+                {% endif %}
             </ul>
         </div>
     </nav>
