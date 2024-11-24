@@ -198,9 +198,10 @@ VALUES
 ('Premade Box - Small', 10.0, 'Box', 20, 'A small box with assorted veggies'),
 ('Premade Box - Medium', 15.0, 'Box', 10, 'A medium box with more assorted veggies'),
 ('Premade Box - Large', 20.0, 'Box', 10, 'A medium box with more assorted veggies');
-INSERT INTO `vegetable_shop`.`items` (`id`, `name`, `description`, `price`, `type`, `stock_quantity`) VALUES ('11', 'Unit Veggies', 'Veggies by unit', '0', 'Unit', '0');
-INSERT INTO `vegetable_shop`.`items` (`id`, `name`, `description`, `price`, `type`, `stock_quantity`) VALUES ('12', 'Weight Veggies', 'Veggies by weight', '0', 'Weight', '0');
-INSERT INTO `vegetable_shop`.`items` (`id`, `name`, `description`, `price`, `type`, `stock_quantity`) VALUES ('13', 'Pack Veggies', 'Veggies by Pack', '0', 'Pack', '0');
+
+INSERT INTO items (name, description, price, type, stock_quantity) VALUES ('Unit Veggies', 'Veggies by unit', '0', 'Unit', '0');
+INSERT INTO items (name, description, price, type, stock_quantity) VALUES ('Weight Veggies', 'Veggies by weight', '0', 'Weight', '0');
+INSERT INTO items (name, description, price, type, stock_quantity) VALUES ('Pack Veggies', 'Veggies by Pack', '0', 'Pack', '0');
 
 
 -- Insert sample veggies
@@ -221,25 +222,25 @@ VALUES
 (9, 'Large', 10, 3);
 
 
-INSERT INTO `vegetable_shop`.`unit_price_veggies` (`id`, `price_per_unit`, `quantity`) VALUES ('1', '5', '5');
-INSERT INTO `vegetable_shop`.`unit_price_veggies` (`id`, `price_per_unit`, `quantity`) VALUES ('2', '10', '5');
-INSERT INTO `vegetable_shop`.`unit_price_veggies` (`id`, `price_per_unit`, `quantity`) VALUES ('3', '5', '5');
-INSERT INTO `vegetable_shop`.`unit_price_veggies` (`id`, `price_per_unit`, `quantity`) VALUES ('4', '10', '5');
-INSERT INTO `vegetable_shop`.`unit_price_veggies` (`id`, `price_per_unit`, `quantity`) VALUES ('5', '5', '5');
-INSERT INTO `vegetable_shop`.`unit_price_veggies` (`id`, `price_per_unit`, `quantity`) VALUES ('6', '10', '5');
+INSERT INTO unit_price_veggies (id, price_per_unit, quantity) VALUES ('1', '5', '5');
+INSERT INTO unit_price_veggies (id, price_per_unit, quantity) VALUES ('2', '10', '5');
+INSERT INTO unit_price_veggies (id, price_per_unit, quantity) VALUES ('3', '5', '5');
+INSERT INTO unit_price_veggies (id, price_per_unit, quantity) VALUES ('4', '10', '5');
+INSERT INTO unit_price_veggies (id, price_per_unit, quantity) VALUES ('5', '5', '5');
+INSERT INTO unit_price_veggies (id, price_per_unit, quantity) VALUES ('6', '10', '5');
 
-INSERT INTO `vegetable_shop`.`weighted_veggies` (`id`, `weight`, `weight_per_kilo`) VALUES ('1', '1', '5');
-INSERT INTO `vegetable_shop`.`weighted_veggies` (`id`, `weight`,`weight_per_kilo`) VALUES ('2', '1', 10);
-INSERT INTO `vegetable_shop`.`weighted_veggies` (`id`, `weight`, `weight_per_kilo`) VALUES ('3', '1', '5');
-INSERT INTO `vegetable_shop`.`weighted_veggies` (`id`, `weight`,`weight_per_kilo`) VALUES ('4', '1', 10);
-INSERT INTO `vegetable_shop`.`weighted_veggies` (`id`, `weight`, `weight_per_kilo`) VALUES ('5', '1', '5');
-INSERT INTO `vegetable_shop`.`weighted_veggies` (`id`, `weight`,`weight_per_kilo`) VALUES ('6', '1', 10);
+INSERT INTO weighted_veggies (id, weight, weight_per_kilo) VALUES ('1', '1', '5');
+INSERT INTO weighted_veggies (id, weight,weight_per_kilo) VALUES ('2', '1', 10);
+INSERT INTO weighted_veggies (id, weight, weight_per_kilo) VALUES ('3', '1', '5');
+INSERT INTO weighted_veggies (id, weight,weight_per_kilo) VALUES ('4', '1', 10);
+INSERT INTO weighted_veggies (id, weight, weight_per_kilo) VALUES ('5', '1', '5');
+INSERT INTO weighted_veggies (id, weight,weight_per_kilo) VALUES ('6', '1', 10);
 
-INSERT INTO `vegetable_shop`.`pack_veggies` (`id`, `num_of_pack`, `price_per_pack`) VALUES ('1', '5', '5');
-INSERT INTO `vegetable_shop`.`pack_veggies` (`id`, `num_of_pack`, `price_per_pack`) VALUES ('2', '5', '10');
-INSERT INTO `vegetable_shop`.`pack_veggies` (`id`, `num_of_pack`, `price_per_pack`) VALUES ('3', '5', '5');
-INSERT INTO `vegetable_shop`.`pack_veggies` (`id`, `num_of_pack`, `price_per_pack`) VALUES ('4', '5', '10');
-INSERT INTO `vegetable_shop`.`pack_veggies` (`id`, `num_of_pack`, `price_per_pack`) VALUES ('5', '5', '5');
-INSERT INTO `vegetable_shop`.`pack_veggies` (`id`, `num_of_pack`, `price_per_pack`) VALUES ('6', '5', '10');
+INSERT INTO pack_veggies (id, num_of_pack, price_per_pack) VALUES ('1', '5', '5');
+INSERT INTO pack_veggies (id, num_of_pack, price_per_pack) VALUES ('2', '5', '10');
+INSERT INTO pack_veggies (id, num_of_pack, price_per_pack) VALUES ('3', '5', '5');
+INSERT INTO pack_veggies (id, num_of_pack, price_per_pack) VALUES ('4', '5', '10');
+INSERT INTO pack_veggies (id, num_of_pack, price_per_pack) VALUES ('5', '5', '5');
+INSERT INTO pack_veggies (id, num_of_pack, price_per_pack) VALUES ('6', '5', '10');
 
 

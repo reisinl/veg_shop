@@ -1,6 +1,15 @@
 **Before the Start**
 Please run the `table.sql` file to get the data ready for the whole project
 
+**User Quick Start**
+Please note the initial password for all users is `123`
+**Private customer info to login**
+`user_name`: `111`
+**Corporate customer to login**
+`user_name`: `666`
+**Staff to login**
+`user_name`: `333`
+
 **Detailed Report on Flask Routes and Logic**
 
 ### 1. **Home Page Route**
@@ -9,7 +18,7 @@ Please run the `table.sql` file to get the data ready for the whole project
 def home():
     return render_template("home.html")
 ```
-- **Purpose**: Serves as the initial landing page for users visiting the application. It renders the `home.html` template, which likely contains basic information about the platform, such as introductory content, navigation links, and other essential details to guide the user.
+- **Purpose**: Serves as the initial landing page for users visiting the application. It renders the `home.html` template, which contains basic information about the platform, such as introductory content, navigation links, and other essential details to guide the user.
 - **Logic**:
   - The route is mapped to the base URL (`/`). This function simply renders a static HTML template (`home.html`). No specific processing is done here; it is meant to serve as an informational page to engage users before they interact further with the system.
 
@@ -40,9 +49,9 @@ def login():
   - **POST Request**: Takes user credentials (`username` and `password`) from the form. If the user is found in the `Person` table, user information is stored in the session. The type of user is determined by checking the `Staff` and `Customer` tables.
     - If the user is a staff member, the session stores `'user_type'` as `'staff'`.
     - If the user is a customer, the session stores `'user_type'` as `'customer'`.
-    - If authentication is successful, the user is redirected to the dashboard, and a success message is displayed.
+    - If authentication is successful, the user is redirected to the dashboard, and a success message will be displayed.
     - If the credentials are incorrect, an error message is flashed, and the login page is re-rendered.
-  - **GET Request**: If accessed with a GET request, the function simply renders the login page (`login.html`). This allows users to enter their credentials.
+  - **GET Request**: If accessed with a GET request, the function simply renders the login page (`login.html`).
 
 ### 3. **Logout Route**
 ```python
@@ -88,7 +97,7 @@ def view_vegetables():
 - **Logic**:
   - **Authentication Check**: Redirects unauthenticated users to the login page.
   - **Item Query**: Queries the `Item` table for items with type `'Veggie'` or `'Box'` to filter out other product types. This query results in a list of available items that match the filter criteria.
-  - **Template Rendering**: Passes the retrieved items to the `vegetables.html` template, which displays them in a user-friendly manner, allowing users to browse through available products.
+  - **Template Rendering**: Passes the retrieved items to the `vegetables.html` template, which displays them in a user-friendly manner, allowing users to check available products.
 
 ### 6. **Place Order Route**
 ```python
@@ -117,11 +126,11 @@ def checkout(order_id):
         return redirect(url_for("login"))
     # Checkout logic follows...
 ```
-- **Purpose**: Facilitates the checkout process for an order, handling the payment process and allowing users to complete their purchase.
+- **Purpose**: Get the checkout process for an order, handling the payment process and allowing users to complete their purchase.
 - **Logic**:
   - **Order Validation**: Retrieves the order details using `order_id` and validates that the order exists.
   - **Payment Calculation**: Computes the outstanding payment amount based on any previous payments made.
-  - **Payment Handling**: Supports various payment methods (`Credit Card`, `Debit Card`, `Account`). Depending on the payment type, the system processes the payment accordingly, updating the order status to `"Completed"` if the payment is fully settled.
+  - **Payment Handling**: Supports various payment methods (`Credit Card`, `Debit Card`, `Account`). Depending on the payment type, the system processes the payment accordingly, updating the order status to `"Completed"` if the payment is fully paid.
   - **Template Rendering**: Depending on whether it is a `GET` or `POST` request, the checkout page may either display the payment form or process payment information.
 
 ### 8. **View Orders (Customer) Route**
@@ -203,7 +212,7 @@ def update_order_status(order_id):
   - **Database Update**: Commits the changes to the database and displays a success message.
   - **Redirect**: Redirects the staff member to the current orders page.
 
-### 12. **View Current Orders (Staff Only) Route**
+### 12. **View Current Orders Route**
 
 ```python
 @app.route("/current_orders")

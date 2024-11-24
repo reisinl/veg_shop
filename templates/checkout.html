@@ -22,7 +22,7 @@
                 <h5>Credit Card Information</h5>
                 <div class="form-group">
                     <label for="card_number">Card Number</label>
-                    <input type="text" class="form-control" id="card_number" name="card_number" maxlength="16" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                    <input type="text" class="form-control" id="card_number" name="card_number" minlength="16" maxlength="16" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
                 </div>
                 <div class="form-group">
                     <label for="card_expiry_date">Expiry Date (MM/YY)</label>
@@ -43,7 +43,7 @@
                 <h5>Debit Card Information</h5>
                 <div class="form-group">
                     <label for="debit_card_number">Debit Card Number</label>
-                    <input type="text" class="form-control" id="debit_card_number" name="debit_card_number" maxlength="16" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                    <input type="text" class="form-control" id="debit_card_number" name="debit_card_number" minlength="16" maxlength="16" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
                 </div>
                 <div class="form-group">
                     <label for="bank_name">Bank Name</label>
@@ -94,25 +94,62 @@
     function validatePaymentForm() {
         const paymentMethod = document.getElementById('payment_method').value;
 
+        // Validate Credit Card
         if (paymentMethod === 'Credit Card') {
-            const expiryDateInput = document.getElementById("card_expiry_date");
+            const cardNumberInput = document.getElementById('card_number');
+            const expiryDateInput = document.getElementById('card_expiry_date');
+            const cardNumber = cardNumberInput.value.trim();
             const expiryDate = expiryDateInput.value.trim();
 
-            if (expiryDate) {
-                const [month, year] = expiryDate.split("/").map(Number);
-                const currentDate = new Date();
-                const currentMonth = currentDate.getMonth() + 1; // Months are 0-based
-                const currentYear = currentDate.getFullYear() % 100; // Get last 2 digits of the year
+            if (!cardNumber || cardNumber.length !== 16) {
+                alert("Please enter a valid 16 digits of card number.");
+                return false;
+            }
 
-                // Check if expiry year is greater or if same year, check if month is valid
-                if (year < currentYear || (year === currentYear && month < currentMonth)) {
-                    alert("please check the expiry date of your credit card.");
-                    return false; 
-                }
+            if (!expiryDate || expiryDate.length !== 5 || !expiryDate.includes('/')) {
+                alert("Please enter a valid expiry date in MM/YY format.");
+                return false;
+            }
+
+            const [month, year] = expiryDate.split("/").map(Number);
+            if (!month || month < 1 || month > 12) {
+                alert("Please enter a valid expiry date.");
+                return false;
+            }
+
+            const currentDate = new Date();
+            const currentMonth = currentDate.getMonth() + 1; // Months are 0-based
+            const currentYear = currentDate.getFullYear() % 100; // Get last 2 digits of the year
+
+            if (year < currentYear || (year === currentYear && month < currentMonth)) {
+                alert("The card has expired.");
+                return false;
             }
         }
+
+        // Validate Debit Card
+        if (paymentMethod === 'Debit Card') {
+            const debitCardNumberInput = document.getElementById('debit_card_number');
+            const bankNameInput = document.getElementById('bank_name');
+            const debitCardNumber = debitCardNumberInput.value.trim();
+            const bankName = bankNameInput.value.trim();
+
+            if (!debitCardNumber || debitCardNumber.length !== 16) {
+                alert("Please enter a valid 16 digits of card number.");
+                return false;
+            }
+
+            if (!bankName) {
+                alert("Please enter the bank name");
+                return false;
+            }
+        }
+
+        // If no validation issues, allow form submission
         return true;
     }
+
+
 
     // JavaScript to auto-format expiry date input (MM/YY)
     function formatExpiryDate(input) {
